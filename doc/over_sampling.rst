@@ -20,7 +20,7 @@ Naive random over-sampling
 One way to fight this issue is to generate new samples in the classes which are
 under-represented. The most naive strategy is to generate new samples by
 randomly sampling with replacement the current available samples. The
-:class:`RandomOverSampler` offers such scheme::
+:class:`RandomOverSampler` offers such a scheme::
 
    >>> from sklearn.datasets import make_classification
    >>> X, y = make_classification(n_samples=5000, n_features=2, n_informative=2,
@@ -55,7 +55,7 @@ As a result, the majority class does not take over the other classes during the
 training process. Consequently, all classes are represented by the decision
 function.
 
-In addition, :class:`RandomOverSampler` allows to sample heterogeneous data
+In addition, :class:`RandomOverSampler` allows sampling of heterogeneous data
 (e.g. containing some strings)::
 
   >>> import numpy as np
@@ -71,7 +71,7 @@ In addition, :class:`RandomOverSampler` allows to sample heterogeneous data
   >>> print(y_resampled)
   [0 0 1 1]
 
-It would also work with pandas dataframe::
+It would also work with a pandas dataframe::
 
   >>> from sklearn.datasets import fetch_openml
   >>> df_adult, y_adult = fetch_openml(
@@ -80,12 +80,12 @@ It would also work with pandas dataframe::
   >>> df_resampled, y_resampled = ros.fit_resample(df_adult, y_adult)
   >>> df_resampled.head()  # doctest: +SKIP
 
-If repeating samples is an issue, the parameter `shrinkage` allows to create a
+If repeating samples is an issue, the parameter `shrinkage` allows one to create a
 smoothed bootstrap. However, the original data needs to be numerical. The
 `shrinkage` parameter controls the dispersion of the new generated samples. We
-show an example illustrate that the new samples are not overlapping anymore
-once using a smoothed bootstrap. This ways of generating smoothed bootstrap is
-also known a Random Over-Sampling Examples
+show an example illustratng that the new samples are not overlapping anymore
+once using a smoothed bootstrap. This way of generating smoothed bootstrap is
+also known as Random Over-Sampling Examples
 (ROSE) :cite:`torelli2014rose`.
 
 .. image:: ./auto_examples/over-sampling/images/sphx_glr_plot_comparison_over_sampling_003.png
@@ -125,9 +125,9 @@ over-sampling methods.
 Ill-posed examples
 ------------------
 
-While the :class:`RandomOverSampler` is over-sampling by duplicating some of
+While the :class:`RandomOverSampler` over-samples by duplicating some of
 the original samples of the minority class, :class:`SMOTE` and :class:`ADASYN`
-generate new samples in by interpolation. However, the samples used to
+generate new samples by interpolation. However, the samples used to
 interpolate/generate new synthetic samples differ. In fact, :class:`ADASYN`
 focuses on generating samples next to the original samples which are wrongly
 classified using a k-Nearest Neighbors classifier while the basic
@@ -173,8 +173,8 @@ SMOTE algorithm::
   >>> print(sorted(Counter(y_resampled).items()))
   [(0, 4674), (1, 4674), (2, 4674)]
 
-When dealing with mixed data type such as continuous and categorical features,
-none of the presented methods (apart of the class :class:`RandomOverSampler`)
+When dealing with mixed data types such as continuous and categorical features,
+none of the presented methods (apart from the class :class:`RandomOverSampler`)
 can deal with the categorical features. The :class:`SMOTENC`
 :cite:`chawla2002smote` is an extension of the :class:`SMOTE` algorithm for
 which categorical data are treated differently::
@@ -190,10 +190,10 @@ which categorical data are treated differently::
   >>> print(sorted(Counter(y).items()))
   [(0, 20), (1, 30)]
 
-In this data set, the first and last features are considered as categorical
-features. One need to provide this information to :class:`SMOTENC` via the
+In this data set, the first and last features are considered categorical
+features. One needs to provide this information to :class:`SMOTENC` via the
 parameters ``categorical_features`` either by passing the indices of these
-features or a boolean mask marking these features::
+features or by using a boolean mask marking these features::
 
   >>> from imblearn.over_sampling import SMOTENC
   >>> smote_nc = SMOTENC(categorical_features=[0, 2], random_state=0)
@@ -208,15 +208,15 @@ features or a boolean mask marking these features::
    ['B' 0.3327240726719727 2]]
 
 Therefore, it can be seen that the samples generated in the first and last
-columns are belonging to the same categories originally presented without any
+columns belong to the same categories originally presented without any
 other extra interpolation.
 
-However, :class:`SMOTENC` is only working when data is a mixed of numerical and
-categorical features. If data are made of only categorical data, one can use
+However, :class:`SMOTENC` only works when the data is a mix of numerical and
+categorical features. If data is comprised of only categorical data, one can use
 the :class:`SMOTEN` variant :cite:`chawla2002smote`. The algorithm changes in
 two ways:
 
-* the nearest neighbors search does not rely on the Euclidean distance. Indeed,
+* the nearest neighbors search does not rely on the Euclidean distance. Instead,
   the value difference metric (VDM) also implemented in the class
   :class:`~imblearn.metrics.ValueDifferenceMetric` is used.
 * a new sample is generated where each feature value corresponds to the most
